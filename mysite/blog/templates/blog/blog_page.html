@@ -1,12 +1,9 @@
-{% extends "base.html" %}
-
-{% load wagtailcore_tags %}
+<!-- Load the wagtailimages_tags: -->
+{% load wagtailcore_tags wagtailimages_tags %}
 
 {% block body_class %}template-blogpage{% endblock %}
 
 {% block content %}
-    blog_page.html
-
     <h1>{{ page.title }}</h1>
     <p class="meta">{{ page.date }}</p>
 
@@ -14,9 +11,12 @@
 
     {{ page.body|richtext }}
 
-    {% for child in page.get_children %}
-
-    {{ child.title }}
+    <!-- Add this: -->
+    {% for item in page.gallery_images.all %}
+        <div style="float: left; margin: 10px">
+            {% image item.image fill-320x240 %}
+            <p>{{ item.caption }}</p>
+        </div>
     {% endfor %}
 
     <p><a href="{{ page.get_parent.url }}">Return to blog</a></p>
